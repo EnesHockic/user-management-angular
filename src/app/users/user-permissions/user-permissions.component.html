@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="list-group-item row clearfix" *ngFor="let unassignedPermission of userUnassignedPermissions">
+                        <div class="list-group-item-header">
+                            <h4>{{unassignedPermission.code}}</h4>
+                        </div>
+                        <div class="list-group-item-body">
+                            {{unassignedPermission.description}}
+                        </div>
+                        <div class="col pull-right">
+                            <button class="btn btn-success" type="button" (click)="onAssignPermission(unassignedPermission.id)">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+            </div>
+                <div class="col-xs-6">
+                        <div class="list-group-item row clearfix" *ngFor="let userPermission of userPermissions">
+                            <div class="list-group-item-header">
+                                <h4>{{userPermission.code}}</h4>
+                            </div>
+                            <div class="list-group-item-body">
+                                {{userPermission.description}}
+                            </div>
+                            <div class="col pull-right">
+                                <button class="btn btn-danger" type="button" (click)="onUnassignPermission(userPermission.id)">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

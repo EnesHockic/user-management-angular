@@ -1,0 +1,27 @@
+<form [formGroup]="editForm">
+    <div class="row">
+        <label for="firstName"> First Name</label>
+        <input class="form-control" type="text" id="firstName" formControlName="firstName">
+    </div>
+    <div class="row">
+        <label for="firstName"> Last Name</label>
+        <input class="form-control" type="text" id="lastName" formControlName="lastName">
+    </div>
+    <div class="row">
+        <label for="firstName"> Email</label>
+        <input class="form-control" type="text" id="email" formControlName="email">
+    </div>
+    <div class="row">
+        <label for="firstName"> Status</label>
+        <input class="form-control" type="text" id="status" formControlName="status">
+    </div>
+    <div class="row" *ngIf="!editMode">
+        <label for="firstName"> Username</label>
+        <input class="form-control" type="text" id="username" formControlName="username">
+    </div>
+    <div class="row" *ngIf="!editMode">
+        <label for="firstName"> Password</label>
+        <input class="form-control" type="text" id="password" formControlName="password">
+    </div>
+    <button type="submit" (click)="onSave()">{{editMode ? 'Update' : 'Add'}}</button>
+</form>
