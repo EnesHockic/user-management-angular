@@ -1,8 +1,10 @@
 <div class="container">
+    <h3>{{userFirstName}} {{userFirstName}} Permissions</h3>
     <div class="row">
         <div class="col-xs-8">
             <div class="row">
                 <div class="col-xs-6">
+                    <h4>Assigned permissions</h4>
                     <div class="list-group-item row clearfix" *ngFor="let unassignedPermission of userUnassignedPermissions">
                         <div class="list-group-item-header">
                             <h4>{{unassignedPermission.code}}</h4>
@@ -18,7 +20,8 @@
                     </div>
             </div>
                 <div class="col-xs-6">
-                        <div class="list-group-item row clearfix" *ngFor="let userPermission of userPermissions">
+                    <h4>Free permissions</h4>
+                    <div class="list-group-item row clearfix" *ngFor="let userPermission of userPermissions">
                             <div class="list-group-item-header">
                                 <h4>{{userPermission.code}}</h4>
                             </div>

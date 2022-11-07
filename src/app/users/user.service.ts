@@ -12,6 +12,8 @@ import { User } from "./User.model";
 export class UserService{
     baseUrl = "https://localhost:7228/api/User";
     userPermissionsChanged = new Subject<boolean>();
+    onInfoMessage = new Subject<{type: string,message: string}>();
+    onErrorMessage = new Subject<{type: string,message: string, errors}>();
     constructor(private httpClient: HttpClient){}
 
     getUsers(pageNumber: number = 0, pageSize:number = 0, sortOrder ="", searchString = ""){
@@ -27,10 +29,11 @@ export class UserService{
             next:(response) =>{
                 console.log("response");
                 console.log(response);
+                this.onInfoMessage.next({type:'success',message:'User successfully updated!'});
             },
             error:(error) =>{
-                console.log("error");
                 console.log(error);
+                this.onErrorMessage.next({type:'error',message:error.message, errors: error.error.errors});
             }
         });
     }
@@ -42,10 +45,11 @@ export class UserService{
             next:(response) => {
                 console.log("response");
                 console.log(response);
+                this.onInfoMessage.next({type:'success',message:'User successfully Added!'});
             },
             error:(error) => {
-                console.log("error");
-                console.log(error);
+                
+                this.onErrorMessage.next({type:'error',message:error.message, errors: error.error.errors});
             }
         })
     }
@@ -60,14 +64,13 @@ export class UserService{
         return this.httpClient.delete<boolean>(`${this.baseUrl}/${userId}/Permissions/${permissionId}`)
         .subscribe({
             next:(response) => {
-                console.log("response");
-                console.log(response);
                 this.userPermissionsChanged.next(response);
+                this.onInfoMessage.next({type:'success',message:'Permission removed!'});
             },
             error:(error) => {
-                console.log("error");
-                console.log(error);
-            }
+                this.onErrorMessage.next({type:'error',message:error.message, errors: error.error.errors});
+
+                }
         })
     }
     addPermissionToUser(userId:number, permissionId: number)
@@ -75,13 +78,12 @@ export class UserService{
         return this.httpClient.post<boolean>(`${this.baseUrl}/${userId}/Permissions`,permissionId)
         .subscribe({
             next:(response) => {
-                console.log("response");
-                console.log(response);
                 this.userPermissionsChanged.next(response);
+                this.onInfoMessage.next({type:'success',message:'Permission added!'});
             },
             error:(error) => {
-                console.log("error");
-                console.log(error);
+                this.onErrorMessage.next({type:'error',message:error.message, errors: error.error.errors});
+
             }
         })
     }

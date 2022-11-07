@@ -30,7 +30,13 @@ export class EditUserComponent implements OnInit {
           next: (response) => {
             this.user = response;
             console.log(this.user);
+            this.userService.onInfoMessage.next({type:'success',message:'User successfully updated!'});
             this.initEditForm();
+          },
+          error: error =>{
+            console.log(error);
+            
+            this.userService.onErrorMessage.next({type:'error',message:error.message, errors: error.error.errors});
           }
         })
       }
@@ -52,13 +58,13 @@ export class EditUserComponent implements OnInit {
     this.editForm = new FormGroup({
       "firstName": new FormControl(firstName,Validators.required),
       "lastName": new FormControl(lastName,Validators.required),
-      "email": new FormControl(email,Validators.required),
+      "email": new FormControl(email,[Validators.required, Validators.email]),
       "status": new FormControl(status,Validators.required),
     })
     if(!this.editMode)
     {
-      this.editForm.addControl("username", new FormControl(null));
-      this.editForm.addControl("password", new FormControl(null));
+      this.editForm.addControl("username", new FormControl(null, [Validators.required,Validators.minLength(5)]));
+      this.editForm.addControl("password", new FormControl(null, [Validators.required,,Validators.minLength(5)]));
     }
   }
   onSave(){

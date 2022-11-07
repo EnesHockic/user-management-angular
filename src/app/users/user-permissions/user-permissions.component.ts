@@ -11,6 +11,8 @@ import { UserService } from '../user.service';
 })
 export class UserPermissionsComponent implements OnInit, OnDestroy {
   userId: number;
+  userFirstName: string;
+  userLastName: string;
   userPermissions : Permission[];
   allPermissions : Permission[];
   userUnassignedPermissions : Permission[];
@@ -24,7 +26,24 @@ export class UserPermissionsComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params: Params)=>{
       console.log(params["id"]);
       this.userId = params["id"];
-      this.userService.getUserPermissions(this.userId)
+      this.getUserDataFromRouting(this.router.getCurrentNavigation());
+      
+      this.loadPermissions();
+      this.userService.userPermissionsChanged.subscribe(
+        () => this.loadPermissions()
+      )
+    })
+  }
+  getUserDataFromRouting(currentNavigation){
+    if(currentNavigation)
+    {
+      let userDetails = currentNavigation.extras.state;
+      this.userFirstName = userDetails.firstName;
+      this.userLastName = userDetails.lastName;
+    }
+  }
+  loadPermissions(){
+    this.userService.getUserPermissions(this.userId)
         .subscribe({
           next:(response) => {
               this.userPermissions = response;
@@ -34,10 +53,9 @@ export class UserPermissionsComponent implements OnInit, OnDestroy {
               console.log(error);
           }
       })
-      
-      
-    })
   }
+
+
   getAllPermissions(){
     this.permissionService.getPermissions()
     .subscribe({
@@ -57,9 +75,11 @@ export class UserPermissionsComponent implements OnInit, OnDestroy {
   }
   onUnassignPermission(permissionId: number){
     this.userService.removePermissionFromUser(this.userId, permissionId);
+    this.loadPermissions();
   }
   onAssignPermission(permissionId){
     this.userService.addPermissionToUser(this.userId, permissionId);
+    this.loadPermissions();
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { first } from 'rxjs';
 import { PaginatedList } from '../PaginatedList.model';
 import { User } from '../User.model';
 import { UserService } from '../user.service';
@@ -56,15 +57,18 @@ export class UsersListComponent implements OnInit {
       this.userService.deleteUser(id).subscribe({
         next:(response) =>{
           this.initialGetUsers();
+          this.userService.onInfoMessage.next({type:'success',message:'User successfuly removed!'});
+
         },
         error:(error) => {
-          console.log(error);
+            this.userService.onErrorMessage.next({type:'error',message:error.message, errors: error.error.errors});
+            this.userService.onInfoMessage.next({type:'error',message:error.message});
         }
       })
     }
   }
-  onAssign(id:number){
-    this.router.navigate([id,"permissions"],{relativeTo: this.route});
+  onAssign(id:number,firstName: string, lastName:string){
+    this.router.navigate([id,"permissions"],{state:{firstName, lastName},relativeTo: this.route});
   }
   onSort(field:string){
     this.ascOrder = !this.ascOrder;

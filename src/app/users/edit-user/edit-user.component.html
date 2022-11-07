@@ -1,4 +1,7 @@
 
+
+
+
 <h2>
     {{editMode ? 'Edit User' : 'Add New User'}}
 </h2>
@@ -6,33 +9,47 @@
     <div class="row">
         <div class="col-xs-6">
             <div class="row">
-                <label for="firstName"> First Name</label>
+                <label for="firstName"> First Name *</label>
                 <input class="form-control" type="text" id="firstName" formControlName="firstName">
             </div>
             <div class="row">
-                <label for="firstName"> Last Name</label>
+                <label for="firstName"> Last Name *</label>
                 <input class="form-control" type="text" id="lastName" formControlName="lastName">
             </div>
             <div class="row">
-                <label for="firstName"> Email</label>
+                <label for="firstName"> Email *</label>
                 <input class="form-control" type="text" id="email" formControlName="email">
             </div>
             <div class="row">
-                <label for="firstName"> Status</label>
+                <label for="firstName"> Status *</label>
                 <input class="form-control" type="text" id="status" formControlName="status">
             </div>
             <div class="row" *ngIf="!editMode">
-                <label for="firstName"> Username</label>
+                <label for="firstName"> Username *</label>
                 <input class="form-control" type="text" id="username" formControlName="username">
             </div>
             <div class="row" *ngIf="!editMode">
-                <label for="firstName"> Password</label>
+                <label for="firstName"> Password *</label>
                 <input class="form-control" type="text" id="password" formControlName="password">
             </div>
             <hr>
             <div class="row">
-                <div class="col-xs-6 col-xs-offset-5">
-                    <button style="margin-bottom: 40px;" class="btn btn-success" type="submit" (click)="onSave()">{{editMode ? 'Update' : 'Add'}}</button>
+                <div class="col-xs-5 col-xs-offset-4">
+                    <!-- [disabled]="!editForm.valid" -->
+                    <button 
+                            class="btn btn-success" 
+                            type="submit" 
+                            (click)="onSave()">
+                                {{editMode ? 'Update' : 'Add'}}
+                    </button>
+                    <button type="button"
+                            style="margin-left: 10px;" 
+                            type="button" 
+                            [routerLink]="'/users'"
+                            class="btn btn-info" 
+                    >
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>

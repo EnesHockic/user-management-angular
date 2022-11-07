@@ -14,9 +14,12 @@ import { UserPermissionsComponent } from './users/user-permissions/user-permissi
 const appRoutes: Routes = [
   //{path:"",redirectTo:"/users"},
   {path:"users",component:UsersComponent,children:[
+    {path:"",component:UsersListComponent, children:[
+      {path:":id/permissions",component:UserPermissionsComponent},
+    ]},
     {path:"new",component:EditUserComponent},
     {path:":id/edit",component:EditUserComponent},
-    {path:":id/permissions",component:UserPermissionsComponent}
+    
   ]}
 ]
 

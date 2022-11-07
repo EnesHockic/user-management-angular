@@ -1,7 +1,7 @@
-<button class="btn btn-primary"
-[routerLink]="'new'">
-    New User
-</button>
+
 <hr>
-<app-users-list></app-users-list>
+<div class="alert" [ngClass]="successMessage ? 'alert-success' : 'alert-danger'" *ngIf="successMessage || errorMessage">
+    <strong>{{successMessage ? 'Success!' : 'Error!'}}</strong> {{successMessage ? successMessage : errorMessage}}
+    <div *ngFor="let error of errors">{{error.ErrorMessage}}</div>
+</div>
 <router-outlet></router-outlet>
